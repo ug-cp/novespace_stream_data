@@ -14,6 +14,7 @@ import csv
 from threading import Thread
 import os
 import sys
+import time
 
 #class definition
 
@@ -88,9 +89,7 @@ class NoSpaStream():
                     #Recive and decode datastream
                     self.data, self.address = self.socket.recvfrom(1024)
                     self.data_str = self.data.decode('utf-8')
-                    t=datetime.now()
-                    t=t.timestamp()
-                    unixtime=str(t)
+                    unixtime=str(time.time())
                     self.data_str=unixtime+';'+self.data_str
                     
     
