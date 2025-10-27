@@ -8,7 +8,7 @@ Created on Thu Oct 23 08:47:40 2025
 
 #necessary imports
 import socket
-from datetime import datetime, time
+from datetime import datetime
 from pathlib import Path
 import csv
 from threading import Thread
@@ -24,7 +24,7 @@ class NoSpaStream():
         self.print_on_console=printing
         self.socket_adress=('', self.streamport)
         self.streaming_status=False
-        self.CSV_fieldnames= ['Unix - timestemp',' Miliseconds since 00:00:00 (ms)', ' Time', ' Jx (g)', ' Jy (g)', ' Jz (g)', \
+        self.CSV_fieldnames= ['Unix - timestamp',' Miliseconds since 00:00:00 (ms)', ' Time', ' Jx (g)', ' Jy (g)', ' Jz (g)', \
                                ' Temperature (°C)', ' Humidity (%)',' Pressure (mbar)', \
                                ' Parabola',' Announcement']
         
@@ -88,15 +88,21 @@ class NoSpaStream():
                     #Recive and decode datastream
                     self.data, self.address = self.socket.recvfrom(1024)
                     self.data_str = self.data.decode('utf-8')
+                    t=datetime.now()
+                    t=t.timestamp()
+                    unixtime=str(t)
+                    self.data_str=unixtime+';'+self.data_str
+                    
+    
 
                     # Save the data into the CSV file
                     with open(self.CSV_file, mode='a', newline='', encoding='utf-8') as file:
-                        self.CSV_writer = csv.writer(file)
-                        unixtime=str(time.time())
-                        self.datastr2=['1','2','3','4','5','6','7','8','9','10']
+                        self.CSV_writer = csv.writer(file)                        
+                        #print(self.data_str)
+                        self.data_str2=['1','2','3','4','5','6','7','8','9','10']
                         self.data_str2.insert(0,unixtime)
-                        #self.CSV_writer.writerow([self.data_str])
-                        self.CSV_writer.writerow([self.data_str2])
+                        self.CSV_writer.writerow([self.data_str])
+                        #self.CSV_writer.writerow([self.data_str2])
                         if self.print_on_console==True:
                             print(self.data_str)
                 
