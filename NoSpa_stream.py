@@ -14,6 +14,7 @@ import csv
 from threading import Thread
 import os
 import sys
+import time
 
 #class definition
 
@@ -24,9 +25,9 @@ class NoSpaStream():
         self.print_on_console=printing
         self.socket_adress=('', self.streamport)
         self.streaming_status=False
-        self.CSV_fieldnames= ['Miliseconds since 00:00:00 (ms)', 'Time', 'Jx (g)', 'Jy (g)', 'Jz (g)', \
-                               'Temperature (°C)', 'Humidity (%)','Pressure (mbar)', \
-                               'Parabola','Announcement']
+        self.CSV_fieldnames= ['Unix - timestamp',' Miliseconds since 00:00:00 (ms)', ' Time', ' Jx (g)', ' Jy (g)', ' Jz (g)', \
+                               ' Temperature (°C)', ' Humidity (%)',' Pressure (mbar)', \
+                               ' Parabola',' Announcement']
         
         if not os.path.isdir(self.streampath):
             print("ERROR! No valid folder for csv-file is given.")
@@ -88,12 +89,19 @@ class NoSpaStream():
                     #Recive and decode datastream
                     self.data, self.address = self.socket.recvfrom(1024)
                     self.data_str = self.data.decode('utf-8')
+                    unixtime=str(time.time())
+                    self.data_str=unixtime+';'+self.data_str
+                    
+    
 
                     # Save the data into the CSV file
                     with open(self.CSV_file, mode='a', newline='', encoding='utf-8') as file:
-                        self.CSV_writer = csv.writer(file)
-                        #self.CSV_writer.writerow(['1','2','3','4','5','6','7','8','9','10'])
+                        self.CSV_writer = csv.writer(file)                        
+                        #print(self.data_str)
+                        self.data_str2=['1','2','3','4','5','6','7','8','9','10']
+                        self.data_str2.insert(0,unixtime)
                         self.CSV_writer.writerow([self.data_str])
+                        #self.CSV_writer.writerow([self.data_str2])
                         if self.print_on_console==True:
                             print(self.data_str)
                 
