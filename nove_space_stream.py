@@ -27,7 +27,7 @@ class NoSpaStream():
     45. DLR parabolic flight campaign in October 2025.
     """
     # pylint: disable=too-many-instance-attributes
-    def __init__(self, csv_path, inputport="3131", printing=False):
+    def __init__(self, csv_path, inputport=3131, printing=False):
         """
         :param csv_path: path to store the data
         :param inputport: port to listen.
@@ -37,7 +37,7 @@ class NoSpaStream():
         self.streampath = csv_path
         self.streamport = inputport
         self.print_on_console = printing
-        self.socket_adress = ('', self.streamport)
+        self.socket_address = ('', self.streamport)
         self.streaming_status = False
         self.csv_fieldnames = [
             'Unix - timestamp', ' Miliseconds since 00:00:00 (ms)',
@@ -56,7 +56,7 @@ class NoSpaStream():
         Connect to the UDP socket.
         """
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.socket.bind(self.socket_adress)
+        self.socket.bind(self.socket_address)
         print(
             f"Creation of UDP-socket with port {self.streamport} sucessfull.")
 
