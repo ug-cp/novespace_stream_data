@@ -1,5 +1,11 @@
-#!/usr/bin/python3
-import Stream_Novespace_Data
+#!/usr/bin/env python3
+"""
+This is a simple wrapper to start
+stream_novespace_data.start_nove_space_datastream
+from console.
+"""
+
+import stream_novespace_data
 
 if __name__ == "__main__":
-    Stream_Novespace_Data.start_NoveSpace_Datastream()
+    stream_novespace_data.start_nove_space_datastream()
