@@ -20,7 +20,12 @@ which is provided in scrientific research flights.
 This stream data was first provided during
 45. [DLR](https://www.dlr.de/de) parabolic flight campaign in October 2025.
 
-This software is based on Python Code from Thomas Villatte (Novespace).
+This software utilizes Python code originally developed by
+Thomas Villatte (Novespace) as its foundation. The original application
+featured a graphical user interface built with tkinter. Our derived software
+has been redesigned to operate without a GUI, enabling deployment on
+resource-constrained embedded systems. To facilitate data correlation,
+the local computer's timestamp is included in the logged data.
 
 To start the stream of data, use the command `do_logging.py`.
 
