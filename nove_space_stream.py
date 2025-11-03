@@ -140,12 +140,7 @@ class NoSpaStream():
                 with open(self.csv_file, mode='a',
                           newline='', encoding='utf-8') as filedescriptor:
                     csv_writer = csv.writer(filedescriptor)
-                    # print(data_str)
-                    data_str2 = ['1', '2', '3', '4',
-                                      '5', '6', '7', '8', '9', '10']
-                    data_str2.insert(0, unixtime)
                     csv_writer.writerow([data_str])
-                    # csv_writer.writerow([data_str2])
                     if self.print_on_console is True:
                         print(data_str)
         except KeyboardInterrupt:
