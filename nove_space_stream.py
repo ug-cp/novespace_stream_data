@@ -1,10 +1,29 @@
-"""
-Created on Thu Oct 23 08:47:40 2025
+# SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
 
-@author: daniel_m
+"""
+`novespace_stream_data` gets the stream from Novespace during
+scientific research flights.
+
+Copyright (C) 2025 Daniel Maier (University of Greifswald),
+                   Daniel Mohr (University of Greifswald),
+                   Thomas Villatte (Novespace)
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-# necessary imports
 import csv
 import os
 import socket
@@ -13,8 +32,6 @@ import time
 from datetime import datetime
 from pathlib import Path
 from threading import Thread
-
-# class definition
 
 
 class NoSpaStream():
@@ -27,6 +44,7 @@ class NoSpaStream():
     45. DLR parabolic flight campaign in October 2025.
     """
     # pylint: disable=too-many-instance-attributes
+
     def __init__(self, csv_path, inputport=3131, printing=False):
         """
         :param csv_path: path to store the data

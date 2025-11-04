@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+title: novespace_stream_data
+message: If you use this software, please cite it using the metadata from this file.
+type: software
+authors:
+  - given-names: Daniel
+    family-names: Maier
+    orcid: https://orcid.org/0000-0003-1373-0697
+    affiliation: Institute of Physics, University of Greifswald, Greifswald, Germany
+  - given-names: Daniel
+    family-names: Mohr
+    orcid: https://orcid.org/0000-0002-9382-6586
+    affiliation: Institute of Physics, University of Greifswald, Greifswald, Germany
+  - given-names: Thomas
+    family-names: Villatte
+    affiliation: Novespace
+identifiers:
+  - description: The concept DOI of the work.
+    type: doi
+    value:
+repository-code:
+url:
+abstract: |-
+  `novespace_stream_data` gets the stream from Novespace during scientific research flights.
+keywords:
+  - data streaming
+  - scientific data
+  - parabolic flight
+  - research flight
+  - Novespace
+  - Air Zero G
+  - weightlessness
+  - data logging
+  - sensor fusion
+  - microgravity reasearch
+  - airzerog
+  - environmental monitoring
+license: GPL-3.0-or-later
+doi:
