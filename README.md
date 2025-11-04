@@ -1,8 +1,8 @@
 ---
 author: Daniel Maier, Daniel Mohr, Thomas Villatte
 license: GPL-3.0-or-later
-home: https://gitlab.com/ug-cp/ovespace_stream_data
-latest_release: https://gitlab.com/ug-cp/com/ug-cp/ovespace_stream_data/-/releases/permalink/latest
+home: https://gitlab.com/ug-cp/novespace_stream_data
+latest_release: https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/releases/permalink/latest
 doi:
 ---
 <!--

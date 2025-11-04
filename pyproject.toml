@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "novespace_stream_data"
+version = "0.3.0"
+authors = [{name="Daniel Mohr", email="daniel.mohr@uni-greifswald.de"}]
+description = "`novespace_stream_data$` gets the stream from Novespace/AirZeroG, which is provided in scrientific research flights."
+keywords=["data streaming", "scientific data", "parabolic flight",
+          "research flight", "Novespace", "Air Zero G", "weightlessness",
+	  "data logging", "sensor fusion", "microgravity research",
+	  "airzerog", "environmental monitoring"]
+readme = "README.md"
+
+requires-python = ">=3.9"
+
+[project.license]
+file = "LICENSE.md"
+name = "GPL-3.0-or-later"
+
+[project.urls]
+homepage = ""
+documentation = "https://gitlab.com/ug-cp/novespace_stream_data"
+repository = "https://gitlab.com/ug-cp/novespace_stream_data.git"
+download = "https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/releases/permalink/latest"
+
+[project.scripts]
+novespace_stream_data = "novespace_stream_data.scripts.novespace_stream_data:start_nove_space_datastream"
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov", "pytest-xdist"]

@@ -1,8 +1,14 @@
+#!/usr/bin/env python3
+
 # SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """
+This is a simple wrapper to start
+stream_novespace_data.start_nove_space_datastream
+from console.
+
 `novespace_stream_data` gets the stream from Novespace during
 scientific research flights.
 
@@ -26,7 +32,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import os
 
-import nove_space_stream
+from novespace_stream_data.receive import NoSpaStream
 
 
 def start_nove_space_datastream(
@@ -44,5 +50,8 @@ def start_nove_space_datastream(
     :param printig (bool): Should the recived data be printed
                            on the console? (default False)
     """
-    datastream = nove_space_stream.NoSpaStream(filepath, port, printing)
+    datastream = NoSpaStream(filepath, port, printing)
     datastream.start_streaming()
+
+if __name__ == "__main__":
+    start_nove_space_datastream()
