@@ -27,7 +27,9 @@ has been redesigned to operate without a GUI, enabling deployment on
 resource-constrained embedded systems. To facilitate data correlation,
 the local computer's timestamp is included in the logged data.
 
-To start the stream of data, use the command `do_logging.py`.
+To install use `pip`.
+
+To start the stream of data, use the command `novespace_stream_data`.
 
 This will start the datastream and will store it in a csv-file
 that is created in the path, the program was started from.
