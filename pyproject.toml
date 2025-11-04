@@ -27,6 +27,14 @@ download = "https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/releases/
 
 [project.scripts]
 novespace_stream_data = "novespace_stream_data.scripts.novespace_stream_data:start_nove_space_datastream"
+novespace_stream_data_gui_emulator = "novespace_stream_data.scripts.dataunit_udp_emulator:main"
+novespace_stream_data_gui_receiver = "novespace_stream_data.scripts.udp_data_receiver:main"
 
 [project.optional-dependencies]
 test = ["pytest", "pytest-cov", "pytest-xdist"]
+
+[tool.hatch.build.targets.sdist.force-include]
+"src/novespace_stream_data/data/example_data.csv" = "novespace_stream_data/data/example_data.csv"
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/novespace_stream_data/data/example_data.csv" = "novespace_stream_data/data/example_data.csv"
