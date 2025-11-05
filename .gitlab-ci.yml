@@ -81,7 +81,7 @@ alpine-latest-pipx:
     - kill "$pid"
     - ls -lah ./*.csv
     - plaidatafilename="$(mktemp)"
-    - tail -n +1 ./*.csv | cut -d ';' -f 2- > "$plaidatafilename"
+    - tail -n +1 ./*.csv | sed '1d; s/[^;]*;//' > "$plaidatafilename"
     - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
 
 debian-latest-pipx:
