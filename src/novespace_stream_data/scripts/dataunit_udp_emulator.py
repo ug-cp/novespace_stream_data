@@ -1,7 +1,6 @@
 # SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# rev 2025-02
 
 """
 This program emulates the UDP broadcast of the Data-unit,
@@ -91,7 +90,7 @@ def send_udp_data(file_path, ip_address, port):  # pylint: disable = C0116
         if not stop_flag:  # Check if the transmission wasn't stopped manually
             messagebox.showinfo("Success", "Data sent successfully!")
 
-    except Exception as e:
+    except Exception as e:  # pylint: disable = W0718
         messagebox.showerror("Error", f"An error occurred: {e}")
 
 
@@ -127,7 +126,8 @@ def main():  # pylint: disable = C0116
     # Entry widgets with default values for IP Address and Port
     global entry_file, entry_ip, entry_port  # pylint: disable = C0103, W0603
     entry_file = tk.Entry(root, width=40)
-    entry_file.insert(0, files("novespace_stream_data").joinpath("data/example_data.csv"))
+    entry_file.insert(
+        0, files("novespace_stream_data").joinpath("data/example_data.csv"))
     entry_file.grid(row=1, column=1, padx=10, pady=10,
                     sticky="ew")  # Stretch horizontally
 

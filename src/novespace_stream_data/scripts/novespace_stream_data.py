@@ -52,6 +52,12 @@ def start_nove_space_datastream(
     """
     datastream = NoSpaStream(filepath, port, printing)
     datastream.start_streaming()
+    try:
+        datastream.streaming_thread.join()
+    except KeyboardInterrupt:
+        print("KeyboardInterrupt")
+        datastream.end_streaming()
+
 
 if __name__ == "__main__":
     start_nove_space_datastream()
