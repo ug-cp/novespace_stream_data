@@ -28,7 +28,7 @@ correlation, the local computer's timestamp is included in the logged data.
 
 ## Installation
 
-You can install `novespace_stream_data` using `pip` or `pipx`.  
+You can install `novespace_stream_data` using `pip` or `pipx`.
 
 **Using pipx (recommended):**
 
@@ -112,4 +112,3 @@ If you are using a specific version, please use the corresponding DOI.
 This is good scientific practice, but does not restrict the use,
 modification, and distribution of the code under the terms of the
 GPL-3.0-or-later license. The code remains freely available.
-```
