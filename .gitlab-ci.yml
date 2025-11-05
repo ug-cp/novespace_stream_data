@@ -73,10 +73,11 @@ alpine-latest-pipx:
     - apk add --no-cache pipx
     - export PATH="$PATH":~/.local/bin
     - pipx install .
-    - novespace_stream_data_receiver > /dev/null 2> /dev/null &
+    - novespace_stream_data_receiver -p 1313 > /dev/null 2> /dev/null &
     - pid="$!"
     - echo "$pid"
-    - novespace_stream_data_emulator
+    - sleep 1
+    - novespace_stream_data_emulator -p 1313
     - sleep 1
     - kill "$pid"
     - ls -lah ./*.csv
@@ -99,6 +100,7 @@ debian-latest-pipx:
     - novespace_stream_data_receiver > /dev/null 2> /dev/null &
     - pid="$!"
     - echo "$pid"
+    - sleep 1
     - novespace_stream_data_emulator
     - sleep 1
     - kill "$pid"

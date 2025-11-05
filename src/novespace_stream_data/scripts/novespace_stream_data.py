@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 # SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
@@ -30,6 +28,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import argparse
 import os
 
 from novespace_stream_data.receive import NoSpaStream
@@ -50,10 +49,24 @@ def start_nove_space_datastream(
     :param printig (bool): Should the recived data be printed
                            on the console? (default False)
     """
-    datastream = NoSpaStream(filepath, port, printing)
+    description = "This script receives data stream of airplanedata and "
+    description += "writes them into a csv-file."
+    epilog = "Date: 2025-11-05\n"
+    epilog += "License: GPL-3.0-or-later"
+    parser = argparse.ArgumentParser(
+        description=description,
+        epilog=epilog,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument(
+        '-port',
+        nargs="?",
+        default=port,
+        type=int,
+        required=False,
+        dest='port',
+        help='Number of Port for streaming (default: %(default)s)',
+        metavar='i')
+    args = parser.parse_args()
+    datastream = NoSpaStream(filepath, args.port, printing)
     datastream.start_streaming()
     datastream.streaming_thread.join()
-
-
-if __name__ == "__main__":
-    start_nove_space_datastream()
