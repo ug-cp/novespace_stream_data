@@ -27,7 +27,25 @@ has been redesigned to operate without a GUI, enabling deployment on
 resource-constrained embedded systems. To facilitate data correlation,
 the local computer's timestamp is included in the logged data.
 
+## install
+
 To install use `pip` or `pipx`.
+
+For example to install with `pipx` (similar with `pip`):
+
+```sh
+pipx install https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/archive/0.3.0/novespace_stream_data-0.3.0.zip
+```
+
+For development you could install an editable version, e. g.:
+
+```sh
+git clone https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data
+cd novespace_stream_data
+pip3 install -e .
+```
+
+## usage
 
 To start the stream of data, use the command `novespace_stream_data_receiver`
 for command line and `novespace_stream_data_gui_receiver` as a GUI.
@@ -40,6 +58,27 @@ To stop streaming use "Ctrl+C" or TERM signal (kill).
 To emulate a data stream use as command line tool
 `novespace_stream_data_emulator` and `novespace_stream_data_gui_emulator` as a
 GUI.
+
+It is possible to start `novespace_stream_data_receiver` in the background,
+e. g.:
+
+```sh
+((cd /logdata && novespace_stream_data_receiver) > /dev/null 2> /dev/null)&
+```
+
+Stopping is possible using `killall`, e. g.:
+
+```sh
+killall novespace_stream_data_receiver
+```
+
+The command line tools have some help output and command line parameters,
+e. g.:
+
+```sh
+novespace_stream_data_receiver -h
+novespace_stream_data_emulator -h
+```
 
 ## Citation
 
