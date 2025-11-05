@@ -14,6 +14,7 @@ import socket
 import threading
 import time
 import tkinter as tk
+from importlib.resources import files
 from tkinter import filedialog, messagebox
 
 # Global variable to control the stop flag
@@ -126,6 +127,7 @@ def main():  # pylint: disable = C0116
     # Entry widgets with default values for IP Address and Port
     global entry_file, entry_ip, entry_port  # pylint: disable = C0103, W0603
     entry_file = tk.Entry(root, width=40)
+    entry_file.insert(0, files("novespace_stream_data").joinpath("data/example_data.csv"))
     entry_file.grid(row=1, column=1, padx=10, pady=10,
                     sticky="ew")  # Stretch horizontally
 
