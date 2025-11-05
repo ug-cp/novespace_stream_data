@@ -26,6 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import csv
 import os
+import signal
 import socket
 import sys
 import time

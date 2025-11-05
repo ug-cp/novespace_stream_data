@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+"""
+This program gets the UDP broadcast stream, logs and display it.
+"""
+
 import tkinter as tk
 from datetime import datetime
 from pathlib import Path
@@ -20,8 +24,15 @@ class GUINoSpaStream(NoSpaStream):
     This stream data was first provided during
     45. DLR parabolic flight campaign in October 2025.
     """
+    # pylint: disable = R0902
 
     def __init__(self, csv_path, inputport=3131, printing=False):
+        """
+        :param csv_path: path to store the data
+        :param inputport: port to listen.
+        :param printing: If set to True the data is not only logged, but also
+                         printed on the console (stdout).
+        """
         super().__init__(csv_path, inputport, printing)
         self.display_data_callback = self.display_data
         self.label_directory = None
@@ -35,7 +46,9 @@ class GUINoSpaStream(NoSpaStream):
         self.do_exit = False
 
     def __call__(self):
-        # Graphical Interface Configuration
+        """
+        Graphical Interface Configuration
+        """
         root = tk.Tk()
         root.title("UDP Data Receiver")
 
@@ -91,7 +104,9 @@ class GUINoSpaStream(NoSpaStream):
         root.mainloop()
 
     def browse_directory(self):
-        """Opens a dialog box to choose the directory to store the CSV file."""
+        """
+        Opens a dialog box to choose the directory to store the CSV file.
+        """
         folder_selected = filedialog.askdirectory()
         if folder_selected:
             self.streampath = folder_selected
@@ -99,7 +114,9 @@ class GUINoSpaStream(NoSpaStream):
                 text=f"Selected folder : {self.streampath}")
 
     def start_receiving(self):
-        """Starts receiving UDP data in a separate thread."""
+        """
+        Starts receiving UDP data in a separate thread.
+        """
         if not self.streampath:
             messagebox.showerror(
                 "Error", "Please select a folder to store the csv file.")
@@ -108,7 +125,7 @@ class GUINoSpaStream(NoSpaStream):
         # Get the port from the input field
         try:
             # Get the port number from the entry field
-            port = int(self.entry_port.get())
+            self.streamport = int(self.entry_port.get())
         except ValueError:
             messagebox.showerror(
                 "Error",
@@ -125,19 +142,28 @@ class GUINoSpaStream(NoSpaStream):
         self.button_stop.config(state=tk.NORMAL)    # Enable the "Stop" button
 
     def stop_receiving(self):
-        """Stops receiving UDP data."""
+        """
+        Stops receiving UDP data.
+        """
         self.end_streaming()
         self.button_stop.config(state=tk.DISABLED)  # Disable the "Stop" button
         # Enable the "Start" button again
         self.button_start.config(state=tk.NORMAL)
 
     def display_data(self, data_str):
+        """
+        display data in GUI
+        """
         # Update the interface with the received data
         self.text_box.insert(tk.END, f"Data received: {data_str}\n")
         self.text_box.yview(tk.END)  # Scroll vers la fin de la fenêtre
 
 
 def main():
+    """
+    This function provides a GUI to get the streaming of airplanedata and
+    writes them into a csv-file.
+    """
     datastreamgui = GUINoSpaStream(None, 3131)
     datastreamgui()
 

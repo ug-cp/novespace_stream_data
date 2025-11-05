@@ -38,7 +38,7 @@ from novespace_stream_data.receive import NoSpaStream
 def start_nove_space_datastream(
         port=3131, filepath=os.getcwd(), printing=False):
     """
-    This functions starts the streaming of airplanedata and
+    This function starts the streaming of airplanedata and
     writes them into a csv-file.
     To stop stream use the Ctrl+C keyboard interrupt
 

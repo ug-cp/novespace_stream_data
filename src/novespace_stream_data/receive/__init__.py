@@ -33,3 +33,5 @@ copyright + license
 """
 
 from .nove_space_stream import NoSpaStream
+
+__all__ = ["NoSpaStream"]
