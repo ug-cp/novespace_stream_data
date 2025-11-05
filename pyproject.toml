@@ -26,7 +26,8 @@ repository = "https://gitlab.com/ug-cp/novespace_stream_data.git"
 download = "https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/releases/permalink/latest"
 
 [project.scripts]
-novespace_stream_data = "novespace_stream_data.scripts.novespace_stream_data:start_nove_space_datastream"
+novespace_stream_data_receiver = "novespace_stream_data.scripts.novespace_stream_data:start_nove_space_datastream"
+novespace_stream_data_emulator = "novespace_stream_data.scripts.novespace_emulator:start_novespace_emulator"
 novespace_stream_data_gui_emulator = "novespace_stream_data.scripts.dataunit_udp_emulator:main"
 novespace_stream_data_gui_receiver = "novespace_stream_data.scripts.udp_data_receiver:main"
 

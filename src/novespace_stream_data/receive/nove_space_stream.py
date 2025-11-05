@@ -26,6 +26,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import csv
 import os
+import select
 import signal
 import socket
 import sys
@@ -76,6 +77,8 @@ class NoSpaStream():
         if ((self.streampath is not None) and
                 (not os.path.isdir(self.streampath))):
             print("ERROR! No valid folder for csv-file is given.")
+        signal.signal(signal.SIGINT, self.signal_handler)
+        signal.signal(signal.SIGTERM, self.signal_handler)
 
     def connect_socket(self):
         """
@@ -101,7 +104,6 @@ class NoSpaStream():
         """
         Start the data streaming process.
         """
-        print('#######', not self.stop_event.is_set())
         if self.streaming_running.is_set():
             print("The stream is allready active!")
         else:
@@ -128,10 +130,20 @@ class NoSpaStream():
             print(
                 "Starting datastream from port "
                 f"{self.streamport} to file: {self.csv_file}")
-            print("To end streaming use: CTRL+C\n")
+            print("To end streaming use: CTRL+C or send a TERM signal\n")
             self.streaming_thread = Thread(
                 target=self.stream_data, daemon=True)
             self.streaming_thread.start()
+
+    def signal_handler(self, signum, _):
+        """
+        signal handler to catch TERM signal
+        """
+        if signum == signal.SIGTERM:
+            print("got TERM signal")
+        elif signum == signal.SIGINT:
+            print("got SIGINT signal (Ctrl+C)")
+        self.end_streaming()
 
     def end_streaming(self):
         """
@@ -149,12 +161,14 @@ class NoSpaStream():
                     "Streaming ended on %Y-%m-%d at %H:%M:%S"))
                 if self.do_exit:
                     sys.exit(0)
-            except:  # noqa: E722 pylint: disable = W0702, W0718
+            except Exception as msg:  # pylint: disable = W0718
+                print(f"Error in end_streaming: {msg}")
                 print("ERROR! Ending of Datastream was not sucessfull!")
                 if self.do_exit:
                     sys.exit(1)
             self.streaming_running.clear()
             self.streaming_not_running.set()
+        self.socket.close()
 
     def stream_data(self):
         """
@@ -163,27 +177,28 @@ class NoSpaStream():
         print("streaming data\n")
         self.streaming_running.set()
         self.streaming_not_running.clear()
-        try:
-            while not self.stop_event.is_set():
+        while not self.stop_event.is_set():
+            readable, _, _ = select.select([self.socket], [], [], 0.5)
+            if readable:
                 # Recive and decode datastream
-                data, _ = self.socket.recvfrom(1024)
-                data_str = data.decode('utf-8')
-                unixtime = str(time.time())
-                data_str = unixtime + ';' + data_str
+                try:
+                    data, _ = self.socket.recvfrom(1024)
+                    data_str = data.decode('utf-8')
+                    unixtime = str(time.time())
+                    data_str = unixtime + ';' + data_str
 
-                # Save the data into the csv file
-                with open(self.csv_file, mode='a',
-                          newline='', encoding='utf-8') as filedescriptor:
-                    csv_writer = csv.writer(filedescriptor)
-                    csv_writer.writerow([data_str])
-                    if self.print_on_console is True:
-                        print(data_str)
-                if self.display_data_callback is not None:
-                    self.display_data_callback(data_str)
-            self.streaming_running.clear()
-            print('streaming_not_running.set')
-            self.streaming_not_running.set()
-            print('  streaming_not_running.set.')
-        except Exception as e:  # pylint: disable = W0718
-            print(f"Error in receiving data: {e}")
-            self.end_streaming()
+                    # Save the data into the csv file
+                    with open(self.csv_file, mode='a',
+                              newline='', encoding='utf-8') as filedescriptor:
+                        csv_writer = csv.writer(filedescriptor)
+                        csv_writer.writerow([data_str])
+                        if self.print_on_console is True:
+                            print(data_str)
+                    if self.display_data_callback is not None:
+                        self.display_data_callback(data_str)
+                except OSError:
+                    pass
+        self.streaming_running.clear()
+        print('streaming_not_running.set')
+        self.streaming_not_running.set()
+        print('  streaming_not_running.set.')

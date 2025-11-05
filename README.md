@@ -27,14 +27,19 @@ has been redesigned to operate without a GUI, enabling deployment on
 resource-constrained embedded systems. To facilitate data correlation,
 the local computer's timestamp is included in the logged data.
 
-To install use `pip`.
+To install use `pip` or `pipx`.
 
-To start the stream of data, use the command `novespace_stream_data`.
+To start the stream of data, use the command `novespace_stream_data_receiver`
+for command line and `novespace_stream_data_gui_receiver` as a GUI.
 
 This will start the datastream and will store it in a csv-file
 that is created in the path, the program was started from.
 
-To stop streaming use "Ctrl+C".
+To stop streaming use "Ctrl+C" or TERM signal (kill).
+
+To emulate a data stream use as command line tool
+`novespace_stream_data_emulator` and `novespace_stream_data_gui_emulator` as a
+GUI.
 
 ## Citation
 
