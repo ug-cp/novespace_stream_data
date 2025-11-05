@@ -71,8 +71,8 @@ alpine-latest-pipx:
   extends: .display_env
   script:
     - apk add --no-cache pipx
-    - pipx install .
     - export PATH="$PATH":~/.local/bin
+    - pipx install .
     - (novespace_stream_data_receiver > /dev/null 2> /dev/null)&
     - pid="$!"
     - echo "$pid"
@@ -91,9 +91,10 @@ debian-latest-pipx:
     APT_GET_INSTALL: "apt-get install --no-install-recommends -q -y"
   extends: .display_env
   script:
+    - apt-get update
     - $APT_GET_INSTALL pipx
-    - pipx install .
     - export PATH="$PATH":~/.local/bin
+    - pipx install .
     - (novespace_stream_data_receiver > /dev/null 2> /dev/null)&
     - pid="$!"
     - echo "$pid"
