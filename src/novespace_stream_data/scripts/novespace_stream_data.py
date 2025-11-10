@@ -3,6 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """
+This is a simple wrapper to start
+stream_novespace_data.start_nove_space_datastream
+from console.
+
 `novespace_stream_data` gets the stream from Novespace during
 scientific research flights.
 
@@ -24,15 +28,16 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import argparse
 import os
 
-import nove_space_stream
+from novespace_stream_data.receive import NoSpaStream
 
 
 def start_nove_space_datastream(
         port=3131, filepath=os.getcwd(), printing=False):
     """
-    This functions starts the streaming of airplanedata and
+    This function starts the streaming of airplanedata and
     writes them into a csv-file.
     To stop stream use the Ctrl+C keyboard interrupt
 
@@ -44,5 +49,24 @@ def start_nove_space_datastream(
     :param printig (bool): Should the recived data be printed
                            on the console? (default False)
     """
-    datastream = nove_space_stream.NoSpaStream(filepath, port, printing)
+    description = "This script receives data stream of airplanedata and "
+    description += "writes them into a csv-file."
+    epilog = "Date: 2025-11-05\n"
+    epilog += "License: GPL-3.0-or-later"
+    parser = argparse.ArgumentParser(
+        description=description,
+        epilog=epilog,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument(
+        '-port',
+        nargs="?",
+        default=port,
+        type=int,
+        required=False,
+        dest='port',
+        help='Number of Port for streaming (default: %(default)s)',
+        metavar='i')
+    args = parser.parse_args()
+    datastream = NoSpaStream(filepath, args.port, printing)
     datastream.start_streaming()
+    datastream.streaming_thread.join()
