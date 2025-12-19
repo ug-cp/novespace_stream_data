@@ -151,7 +151,7 @@ pages:
     - pipx install anybadge
     - anybadge -l "home" -v novespace_stream_data -f home.svg -c darkblue -o
     - anybadge -l "mirror" -v novespace_stream_data -f mirror.svg -c brown -o
-    - wget "https://zenodo.org/badge/DOI/10.5281/zenodo.17986132.svg"
+    # - wget "https://zenodo.org/badge/DOI/10.5281/zenodo.17986132.svg"
   artifacts:
     paths:
       - home.svg
