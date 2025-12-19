@@ -108,7 +108,7 @@ debian-latest-pipx:
     - plaidatafilename="$(mktemp)"
     - tail -n +1 ./*.csv | sed '1d; s/[^;]*;//' > "$plaidatafilename"
     - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
-    - echo "TAG=$(grep version pyproject.toml | cut -d ' ' -f 3)" > variables.env
+    - echo "TAG=$(grep -Po '^version\s*=\s*\"\K[^\"]+' pyproject.toml)" > variables.env
     - cat variables.env
   artifacts:
     reports:
