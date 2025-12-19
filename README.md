@@ -2,8 +2,9 @@
 author: Daniel Maier, Daniel Mohr, Thomas Villatte
 license: GPL-3.0-or-later
 home: https://gitlab.com/ug-cp/novespace_stream_data
-latest_release: https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/releases/permalink/latest
-doi:
+mirror: https://github.com/ug-cp/novespace_stream_data
+latest_release: https://gitlab.com/ug-cp/novespace_stream_data/-/releases/permalink/latest
+doi: https://doi.org/10.5281/zenodo.17986132
 ---
 <!--
 SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
@@ -35,7 +36,7 @@ You can install `novespace_stream_data` using `pip` or `pipx`.
 Example:
 
 ```sh
-pipx install https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/archive/0.3.0/novespace_stream_data-0.3.0.zip
+pipx install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.3.1/novespace_stream_data-0.3.1.zip
 ```
 
 **Using pip:**
@@ -43,13 +44,13 @@ pipx install https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/archive/
 Example:
 
 ```sh
-pip3 install https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/archive/0.3.0/novespace_stream_data-0.3.0.zip
+pip3 install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.3.1/novespace_stream_data-0.3.1.zip
 ```
 
 For development, you can install an editable version:
 
 ```sh
-git clone https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data
+git clone https://gitlab.com/ug-cp/novespace_stream_data
 cd novespace_stream_data
 pip3 install -e .
 ```
@@ -105,7 +106,7 @@ novespace_stream_data_emulator -h
 
 If you use `novespace_stream_data` in your research, please cite it.
 
--- tbd --
+Maier, D., Mohr, D., & Villatte, T. (2025). novespace_stream_data. Zenodo. https://doi.org/10.5281/zenodo.17986132
 
 If you are using a specific version, please use the corresponding DOI.
 

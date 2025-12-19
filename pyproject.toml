@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "novespace_stream_data"
-version = "0.3.0"
-authors = [{name="Daniel Mohr", email="daniel.mohr@uni-greifswald.de"}]
+version = "0.3.1"
+authors = [{name="Daniel Maier"}, {name="Daniel Mohr"}, {name="Thomas Villatte"}]
 description = "`novespace_stream_data$` gets the stream from Novespace/AirZeroG, which is provided in scrientific research flights."
 keywords=["data streaming", "scientific data", "parabolic flight",
           "research flight", "Novespace", "Air Zero G", "weightlessness",
@@ -20,7 +20,7 @@ file = "LICENSE.md"
 name = "GPL-3.0-or-later"
 
 [project.urls]
-homepage = ""
+homepage = "https://gitlab.com/projects/77217793"
 documentation = "https://gitlab.com/ug-cp/novespace_stream_data"
 repository = "https://gitlab.com/ug-cp/novespace_stream_data.git"
 download = "https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/releases/permalink/latest"

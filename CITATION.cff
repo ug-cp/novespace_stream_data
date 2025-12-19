@@ -17,9 +17,9 @@ authors:
 identifiers:
   - description: The concept DOI of the work.
     type: doi
-    value:
+    value: 10.5281/zenodo.17986132
 repository-code:
-url:
+url: https://gitlab.com/ug-cp/novespace_stream_data
 abstract: |-
   `novespace_stream_data` gets the stream from Novespace during scientific research flights.
 keywords:
@@ -36,4 +36,4 @@ keywords:
   - airzerog
   - environmental monitoring
 license: GPL-3.0-or-later
-doi:
+doi: 10.5281/zenodo.17986132

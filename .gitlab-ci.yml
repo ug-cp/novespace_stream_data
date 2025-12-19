@@ -29,7 +29,7 @@ pre-commit:
     - apk add --no-cache git npm pre-commit
     - pre-commit --version
     - pre-commit run --all-files --show-diff-on-failure
-    - pre-commit autoupdate --jobs $((($(nproc) * 3 + 2 - 1)/2))
+    - pre-commit autoupdate --jobs 0
     - git diff .pre-commit-config.yaml
 
 pycodestyle:
@@ -108,3 +108,72 @@ debian-latest-pipx:
     - plaidatafilename="$(mktemp)"
     - tail -n +1 ./*.csv | sed '1d; s/[^;]*;//' > "$plaidatafilename"
     - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
+
+release_job:
+  stage: create_release
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST == "gitlab.com"
+  image:
+    # https://docs.gitlab.com/ee/user/project/releases/release_cicd_examples.html#create-release-metadata-in-a-custom-script
+    registry.gitlab.com/gitlab-org/release-cli:latest
+  extends: .display_env
+  script:
+    - echo "running release_job for $TAG"
+    - wget "https://zenodo.org/badge/DOI/10.5281/zenodo.17986132.svg"
+  release:
+    name: 'novespace_stream_data v$TAG'
+    description: '$DESCRIPTION'
+    tag_name: '$TAG'
+    ref: '$CI_COMMIT_SHA'
+    assets:
+      links:
+        - name: $PDFMANUAL
+          filepath: /$PDFMANUAL
+          url: $PDFMANUALURL
+          link_type: other
+  artifacts:
+    paths:
+      - "zenodo.17986132.svg"
+
+pages:
+  stage: deploy
+  image:
+    name: alpine:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  dependencies:
+    - debian-latest
+  script:
+    - date
+    - apk add --no-cache pipx
+    - export PATH="$PATH":"$HOME/.local/bin"
+    - pipx install anybadge
+    - anybadge -l "home" -v novespace_stream_data -f home.svg -c darkblue -o
+    - anybadge -l "mirror" -v novespace_stream_data -f mirror.svg -c brown -o
+    - wget "https://zenodo.org/badge/DOI/10.5281/zenodo.17986132.svg"
+  artifacts:
+    paths:
+      - home.svg
+      - mirror.svg
+      - "zenodo.17986132.svg"
+
+trigger_deploy2zenodo:
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_SERVER_HOST == "gitlab.com"
+  variables:
+    TAG: $TAG
+    TAG_COMMIT_SHA: $CI_COMMIT_SHA
+    TAG_COMMIT_TIMESTAMP: $CI_COMMIT_TIMESTAMP
+  trigger:
+    project: daniel_mohr/deploy_novespace_stream_data_to_zenodo
+    strategy: depend
+    forward:
+      yaml_variables: true
+      pipeline_variables: false
