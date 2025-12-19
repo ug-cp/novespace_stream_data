@@ -136,7 +136,7 @@ release_job:
     paths:
       - "zenodo.17986132.svg"
 
-pages:
+create_artifacts:
   stage: deploy
   image:
     name: alpine:latest
