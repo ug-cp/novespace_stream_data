@@ -36,7 +36,7 @@ repos:
     hooks:
       - id: shellcheck
   - repo: https://github.com/igorshubovych/markdownlint-cli
-    rev: v0.45.0
+    rev: v0.47.0
     hooks:
       - id: markdownlint
   - repo: https://gitlab.com/yaml2script/yaml2script
@@ -47,6 +47,6 @@ repos:
           - shellcheck-py
         args: [-parameter_check_command=-e SC1091]
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.8.6
+    rev: 1.9.2
     hooks:
       - id: bandit

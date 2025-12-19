@@ -108,6 +108,8 @@ debian-latest-pipx:
     - plaidatafilename="$(mktemp)"
     - tail -n +1 ./*.csv | sed '1d; s/[^;]*;//' > "$plaidatafilename"
     - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
+    - echo "TAG=$(grep version pyproject.toml | cut -d ' ' -f 3)" > variables.env
+    - cat variables.env
 
 release_job:
   stage: create_release
