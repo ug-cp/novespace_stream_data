@@ -132,12 +132,6 @@ release_job:
     description: '$DESCRIPTION'
     tag_name: '$TAG'
     ref: '$CI_COMMIT_SHA'
-    assets:
-      links:
-        - name: $PDFMANUAL
-          filepath: /$PDFMANUAL
-          url: $PDFMANUALURL
-          link_type: other
   artifacts:
     paths:
       - "zenodo.17986132.svg"
