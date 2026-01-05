@@ -106,7 +106,8 @@ novespace_stream_data_emulator -h
 
 If you use `novespace_stream_data` in your research, please cite it.
 
-Maier, D., Mohr, D., & Villatte, T. (2025-2026). novespace_stream_data. Zenodo. https://doi.org/10.5281/zenodo.17986132
+Maier, D., Mohr, D., & Villatte, T. (2025-2026). novespace_stream_data.
+Zenodo. https://doi.org/10.5281/zenodo.17986132
 
 If you are using a specific version, please use the corresponding DOI.
 
