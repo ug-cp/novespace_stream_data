@@ -2,6 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+variables:
+  DEBIAN_FRONTEND: noninteractive
+  APT_GET_INSTALL: "apt-get install --no-install-recommends -q -y"
+
 stages:
   - pre
   - build_test
@@ -19,6 +23,62 @@ stages:
     - date
     - uname -a
     - cat /etc/os-release
+
+.debian_based-build_test-pipx:
+  stage: build_test
+  extends: .display_env
+  before_script:
+    - !reference [.display_env, before_script]
+    - apt-get update
+    - $APT_GET_INSTALL pipx
+    - export PATH="$PATH":~/.local/bin
+    - pipx install .
+  script:
+    - novespace_stream_data_receiver > /dev/null 2> /dev/null &
+    - pid="$!"
+    - echo "$pid"
+    - sleep 1
+    - novespace_stream_data_emulator
+    - sleep 1
+    - kill "$pid"
+    - ls -lah ./*.csv
+    - plaidatafilename="$(mktemp)"
+    - tail -n +1 ./*.csv | sed '1d; s/[^;]*;//' > "$plaidatafilename"
+    - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
+
+.debian_based-build_test-pip:
+  stage: build_test
+  extends: .display_env
+  before_script:
+    - !reference [.display_env, before_script]
+    - apt-get update
+    - $APT_GET_INSTALL python3-pip
+    - export PATH="$PATH":~/.local/bin
+    - pip3 install --user --break-system-packages .
+  script:
+    - !reference [.debian_based-build_test-pipx, script]
+
+.almalinux_based-build_test-pip:
+  stage: build_test
+  extends: .display_env
+  before_script:
+    - !reference [.display_env, before_script]
+    - yum -y install pip
+    - export PATH="$PATH":~/.local/bin
+    - pip3 install --user .
+  script:
+    - !reference [.debian_based-build_test-pipx, script]
+
+.opensuse-leap_based-build_test-pipx:
+  stage: build_test
+  extends: .display_env
+  before_script:
+    - !reference [.display_env, before_script]
+    - zypper --non-interactive install python312-pipx
+    - export PATH="$PATH":~/.local/bin
+    - pipx install .
+  script:
+    - !reference [.debian_based-build_test-pipx, script]
 
 pre-commit:
   stage: pre
@@ -86,33 +146,62 @@ alpine-latest-pipx:
     - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
 
 debian-latest-pipx:
-  stage: build_test
   image:
     name: debian:latest
-  variables:
-    APT_GET_INSTALL: "apt-get install --no-install-recommends -q -y"
-  extends: .display_env
+  extends: .debian_based-build_test-pipx
   script:
-    - apt-get update
-    - $APT_GET_INSTALL pipx
-    - export PATH="$PATH":~/.local/bin
-    - pipx install .
-    - novespace_stream_data_receiver > /dev/null 2> /dev/null &
-    - pid="$!"
-    - echo "$pid"
-    - sleep 1
-    - novespace_stream_data_emulator
-    - sleep 1
-    - kill "$pid"
-    - ls -lah ./*.csv
-    - plaidatafilename="$(mktemp)"
-    - tail -n +1 ./*.csv | sed '1d; s/[^;]*;//' > "$plaidatafilename"
-    - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
+    - !reference [.debian_based-build_test-pipx, script]
     - echo "TAG=$(grep -Po '^version\s*=\s*\"\K[^\"]+' pyproject.toml)" > variables.env
     - cat variables.env
   artifacts:
     reports:
       dotenv: variables.env
+
+debian-latest-arm64-pipx:
+  image:
+    name: debian:latest
+  tags:
+    - aarch64
+  extends: .debian_based-build_test-pipx
+
+debian-latest-pip:
+  image:
+    name: debian:latest
+  extends: .debian_based-build_test-pip
+
+debian-latest-arm64-pip:
+  image:
+    name: debian:latest
+  tags:
+    - aarch64
+  extends: .debian_based-build_test-pip
+
+debian-latest-i386-pipx:
+  image:
+    name: i386/debian:latest
+  extends: .debian_based-build_test-pipx
+
+almalinux-latest-pip:
+  image:
+    name: almalinux:latest
+  extends: .almalinux_based-build_test-pip
+
+almalinux-latest-arm64-pip:
+  image:
+    name: almalinux:latest
+  tags:
+    - aarch64
+  extends: .almalinux_based-build_test-pip
+
+ubuntu-latest-pipx:
+  image:
+    name: ubuntu:latest
+  extends: .debian_based-build_test-pipx
+
+opensuse-leap-latest-pipx:
+  image:
+    name: opensuse/leap:latest
+  extends: .opensuse-leap_based-build_test-pipx
 
 release_job:
   stage: create_release
