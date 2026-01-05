@@ -63,7 +63,7 @@ stages:
   extends: .display_env
   before_script:
     - !reference [.display_env, before_script]
-    - yum -y install pip
+    - yum -y install diffutils pip
     - export PATH="$PATH":~/.local/bin
     - pip3 install --user .
   script:
