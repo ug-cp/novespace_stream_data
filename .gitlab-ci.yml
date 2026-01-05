@@ -24,13 +24,12 @@ stages:
     - uname -a
     - cat /etc/os-release
 
-.debian_based-build_test-pipx:
+.alpine_based-build_test-pipx:
   stage: build_test
   extends: .display_env
   before_script:
     - !reference [.display_env, before_script]
-    - apt-get update
-    - $APT_GET_INSTALL pipx
+    - apk add --no-cache pipx
     - export PATH="$PATH":~/.local/bin
     - pipx install .
   script:
@@ -46,6 +45,18 @@ stages:
     - tail -n +1 ./*.csv | sed '1d; s/[^;]*;//' > "$plaidatafilename"
     - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
 
+.debian_based-build_test-pipx:
+  stage: build_test
+  extends: .display_env
+  before_script:
+    - !reference [.display_env, before_script]
+    - apt-get update
+    - $APT_GET_INSTALL pipx
+    - export PATH="$PATH":~/.local/bin
+    - pipx install .
+  script:
+    - !reference [.alpine_based-build_test-pipx, script]
+
 .debian_based-build_test-pip:
   stage: build_test
   extends: .display_env
@@ -56,7 +67,7 @@ stages:
     - export PATH="$PATH":~/.local/bin
     - pip3 install --user --break-system-packages .
   script:
-    - !reference [.debian_based-build_test-pipx, script]
+    - !reference [.alpine_based-build_test-pipx, script]
 
 .almalinux_based-build_test-pip:
   stage: build_test
@@ -67,7 +78,7 @@ stages:
     - export PATH="$PATH":~/.local/bin
     - pip3 install --user .
   script:
-    - !reference [.debian_based-build_test-pipx, script]
+    - !reference [.alpine_based-build_test-pipx, script]
 
 .opensuse-leap_based-build_test-pipx:
   stage: build_test
@@ -78,7 +89,7 @@ stages:
     - export PATH="$PATH":~/.local/bin
     - pipx install .
   script:
-    - !reference [.debian_based-build_test-pipx, script]
+    - !reference [.alpine_based-build_test-pipx, script]
 
 pre-commit:
   stage: pre
@@ -125,25 +136,9 @@ ruff:
     - ruff check --select NPY201 --output-format=full
 
 alpine-latest-pipx:
-  stage: build_test
   image:
     name: alpine:latest
-  extends: .display_env
-  script:
-    - apk add --no-cache pipx
-    - export PATH="$PATH":~/.local/bin
-    - pipx install .
-    - novespace_stream_data_receiver -p 1313 > /dev/null 2> /dev/null &
-    - pid="$!"
-    - echo "$pid"
-    - sleep 1
-    - novespace_stream_data_emulator -p 1313
-    - sleep 1
-    - kill "$pid"
-    - ls -lah ./*.csv
-    - plaidatafilename="$(mktemp)"
-    - tail -n +1 ./*.csv | sed '1d; s/[^;]*;//' > "$plaidatafilename"
-    - diff "$plaidatafilename" src/novespace_stream_data/data/example_data.csv
+  extends: .alpine_based-build_test-pipx
 
 debian-latest-pipx:
   image:
@@ -193,15 +188,22 @@ almalinux-latest-arm64-pip:
     - aarch64
   extends: .almalinux_based-build_test-pip
 
-ubuntu-latest-pipx:
-  image:
-    name: ubuntu:latest
-  extends: .debian_based-build_test-pipx
-
 opensuse-leap-latest-pipx:
   image:
     name: opensuse/leap:latest
   extends: .opensuse-leap_based-build_test-pipx
+
+opensuse-leap-latest-arm64-pipx:
+  image:
+    name: opensuse/leap:latest
+  tags:
+    - aarch64
+  extends: .opensuse-leap_based-build_test-pipx
+
+ubuntu-latest-pipx:
+  image:
+    name: ubuntu:latest
+  extends: .debian_based-build_test-pipx
 
 release_job:
   stage: create_release
