@@ -106,8 +106,9 @@ novespace_stream_data_emulator -h
 
 0.4.0 For 47. [DLR](https://www.dlr.de/de) parabolic flight campaign in
       September 2026 the provided stream changed from broadcast to multicast.
-      For your convenience we bind all interface to listen for stream --
-      regarding security this not perfect.
+      For your convenience we binds to all interfaces and joins the multicast
+      group on the default interface (configurable via -multicast_interface) --
+      regarding security this not perfect and should not have a default.
 
 ## Citation
 

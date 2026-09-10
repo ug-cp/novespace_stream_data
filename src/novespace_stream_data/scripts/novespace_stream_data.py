@@ -47,8 +47,8 @@ def start_nove_space_datastream(
     :param port (int): Number of Port for streaming (default: 3131)
     :param filepath (str): Path to file in which the csv-file is
                            created (default cwd)
-    :param printig (bool): Should the recived data be printed
-                           on the console? (default False)
+    :param printing (bool): Should the recived data be printed
+                            on the console? (default False)
     """
     description = "This script receives data stream of airplanedata and "
     description += "writes them into a csv-file."
@@ -59,7 +59,8 @@ def start_nove_space_datastream(
         epilog=epilog,
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument(
-        '-multicast_group', nargs='?',
+        '-multicast_group',
+        nargs='?',
         default=multicast_group,
         type=str, dest='multicast_group',
         help='multicast address to join (default: %(default)s)')
@@ -72,8 +73,19 @@ def start_nove_space_datastream(
         dest='port',
         help='Number of Port for streaming (default: %(default)s)',
         metavar='i')
+    parser.add_argument(
+        '-multicast_interface',
+        nargs='?',
+        default='0.0.0.0',  # nosec B104
+        type=str,
+        dest='multicast_interface',
+        help='local interface to join multicast on '
+             '(0.0.0.0 = default/all, default: %(default)s)')
     args = parser.parse_args()
     datastream = NoSpaStream(
-        filepath, args.multicast_group, args.port, printing)
+        filepath,
+        multicast_group=args.multicast_group, inputport=args.port,
+        multicast_interface=args.multicast_interface,
+        printing=printing)
     datastream.start_streaming()
     datastream.streaming_thread.join()

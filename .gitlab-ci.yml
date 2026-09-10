@@ -85,7 +85,7 @@ stages:
   extends: .display_env
   before_script:
     - !reference [.display_env, before_script]
-    - zypper --non-interactive install python313-pipx
+    - zypper --non-interactive install diffutils python313-pipx
     - export PATH="$PATH":~/.local/bin
     - pipx install .
   script:

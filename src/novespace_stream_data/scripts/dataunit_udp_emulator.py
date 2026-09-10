@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
+# SPDX-FileCopyrightText: 2025-2026 Daniel Mohr, Daniel Maier, Thomas Villatte
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
