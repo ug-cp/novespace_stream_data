@@ -46,7 +46,7 @@ class NoSpaStream():
     This stream data was first provided during
     45. DLR parabolic flight campaign in October 2025.
     """
-    # pylint: disable=too-many-instance-attributes
+    # pylint: disable=too-many-instance-attributes, R0917
 
     def __init__(self, csv_path,
                  multicast_group='239.255.100.10', inputport=3131,
