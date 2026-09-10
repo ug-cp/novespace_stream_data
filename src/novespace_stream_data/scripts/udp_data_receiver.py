@@ -24,7 +24,7 @@ class GUINoSpaStream(NoSpaStream):
     This stream data was first provided during
     45. DLR parabolic flight campaign in October 2025.
     """
-    # pylint: disable = R0902
+    # pylint: disable = R0902, R0917
 
     def __init__(self, csv_path,
                  multicast_group='239.255.100.10', inputport=3131,
@@ -37,7 +37,10 @@ class GUINoSpaStream(NoSpaStream):
                          printed on the console (stdout).
         """
         super().__init__(
-            csv_path, multicast_group, inputport, multicast_interface, printing)
+            csv_path,
+            multicast_group, inputport,
+            multicast_interface,
+            printing)
         self.display_data_callback = self.display_data
         self.label_directory = None
         self.button_browse = None
