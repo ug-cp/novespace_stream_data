@@ -133,6 +133,7 @@ class GUINoSpaStream(NoSpaStream):
         try:
             # Get the port number from the entry field
             self.streamport = int(self.entry_port.get())
+            self.socket_address = ('', self.streamport)
         except ValueError:
             messagebox.showerror(
                 "Error",

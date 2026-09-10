@@ -184,6 +184,7 @@ class NoSpaStream():
             self.streaming_not_running.set()
         if self.socket:
             self.socket.close()
+            self.socket = None
 
     def stream_data(self):
         """

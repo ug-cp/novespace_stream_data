@@ -112,9 +112,9 @@ def main():  # pylint: disable = C0116
     # Configure the layout
     tk.Label(
         root,
-        text="This program emulates the UDP broadcast of the Data-unit, "
-        "sending data from a csv file (row by row) to a UDP port on a "
-        "specific IP address, every 0.1s").grid(
+        text="This program emulates the UDP data stream (unicast, for "
+        "receiver testing), sending data from a csv file (row by row) to a "
+        "UDP port on a specific IP address, every 0.1s").grid(
             row=0, column=1, padx=10, pady=10)
     tk.Label(root, text="CSV File:").grid(
         row=1, column=0, padx=10, pady=10, sticky="e")

@@ -36,7 +36,7 @@ You can install `novespace_stream_data` using `pip` or `pipx`.
 Example:
 
 ```sh
-pipx install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.3.1/novespace_stream_data-0.3.1.zip
+pipx install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.4.0/novespace_stream_data-0.4.0.zip
 ```
 
 **Using pip:**
@@ -44,7 +44,7 @@ pipx install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.3.1/nove
 Example:
 
 ```sh
-pip3 install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.3.1/novespace_stream_data-0.3.1.zip
+pip3 install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.4.0/novespace_stream_data-0.4.0.zip
 ```
 
 For development, you can install an editable version:
@@ -106,9 +106,9 @@ novespace_stream_data_emulator -h
 
 0.4.0 For 47. [DLR](https://www.dlr.de/de) parabolic flight campaign in
       September 2026 the provided stream changed from broadcast to multicast.
-      For your convenience we binds to all interfaces and joins the multicast
+      For your convenience we bind to all interfaces and joins the multicast
       group on the default interface (configurable via -multicast_interface) --
-      regarding security this not perfect and should not have a default.
+      regarding security this is not perfect and should not have a default.
 
 ## Citation
 

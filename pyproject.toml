@@ -23,7 +23,7 @@ name = "GPL-3.0-or-later"
 homepage = "https://gitlab.com/projects/77217793"
 documentation = "https://gitlab.com/ug-cp/novespace_stream_data"
 repository = "https://gitlab.com/ug-cp/novespace_stream_data.git"
-download = "https://gitlab.com/ug-cp/com/ug-cp/novespace_stream_data/-/releases/permalink/latest"
+download = "https://gitlab.com/ug-cp/novespace_stream_data/-/releases/permalink/latest"
 
 [project.scripts]
 novespace_stream_data_receiver = "novespace_stream_data.scripts.novespace_stream_data:start_nove_space_datastream"
