@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "novespace_stream_data"
-version = "0.3.1"
-authors = [{name="Daniel Maier"}, {name="Daniel Mohr"}, {name="Thomas Villatte"}]
+version = "0.4.0"
+authors = [{name="Daniel Mohr"}, {name="Daniel Maier"}, {name="Thomas Villatte"}]
 description = "`novespace_stream_data$` gets the stream from Novespace/AirZeroG, which is provided in scrientific research flights."
 keywords=["data streaming", "scientific data", "parabolic flight",
           "research flight", "Novespace", "Air Zero G", "weightlessness",

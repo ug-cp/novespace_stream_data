@@ -1,5 +1,5 @@
 ---
-author: Daniel Maier, Daniel Mohr, Thomas Villatte
+author: Daniel Mohr, Daniel Maier, Thomas Villatte
 license: GPL-3.0-or-later
 home: https://gitlab.com/ug-cp/novespace_stream_data
 mirror: https://github.com/ug-cp/novespace_stream_data
@@ -101,6 +101,13 @@ The command-line tools provide help output and command-line parameters:
 novespace_stream_data_receiver -h
 novespace_stream_data_emulator -h
 ```
+
+## Changelog
+
+0.4.0 For 47. [DLR](https://www.dlr.de/de) parabolic flight campaign in
+      September 2026 the provided stream changed from broadcast to multicast.
+      For your convenience we bind all interface to listen for stream --
+      regarding security this not perfect.
 
 ## Citation
 
