@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
+# SPDX-FileCopyrightText: 2025-2026 Daniel Mohr, Daniel Maier, Thomas Villatte
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -6,9 +6,9 @@
 `novespace_stream_data` gets the stream from Novespace during
 scientific research flights.
 
-Copyright (C) 2025 Daniel Maier (University of Greifswald),
-                   Daniel Mohr (University of Greifswald),
-                   Thomas Villatte (Novespace)
+Copyright (C) 2025-2026 Daniel Mohr (University of Greifswald),
+                        Daniel Maier (University of Greifswald),
+                        Thomas Villatte (Novespace)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ import os
 import select
 import signal
 import socket
+import struct
 import sys
 import time
 from datetime import datetime
@@ -45,9 +46,12 @@ class NoSpaStream():
     This stream data was first provided during
     45. DLR parabolic flight campaign in October 2025.
     """
-    # pylint: disable=too-many-instance-attributes
+    # pylint: disable=too-many-instance-attributes, R0917
 
-    def __init__(self, csv_path, inputport=3131, printing=False):
+    def __init__(self, csv_path,
+                 multicast_group='239.255.100.10', inputport=3131,
+                 multicast_interface='0.0.0.0',  # nosec B104
+                 printing=False):
         """
         :param csv_path: path to store the data
         :param inputport: port to listen.
@@ -55,7 +59,9 @@ class NoSpaStream():
                          printed on the console (stdout).
         """
         self.streampath = csv_path
+        self.multicast_group = multicast_group
         self.streamport = inputport
+        self.multicast_interface = multicast_interface
         self.print_on_console = printing
         self.socket_address = ('', self.streamport)
         self.csv_fieldnames = [
@@ -85,7 +91,15 @@ class NoSpaStream():
         Connect to the UDP socket.
         """
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind(self.socket_address)
+        if self.multicast_group:
+            mreq = struct.pack(
+                '4s4s',
+                socket.inet_aton(self.multicast_group),
+                socket.inet_aton(self.multicast_interface))
+            self.socket.setsockopt(socket.IPPROTO_IP,
+                                   socket.IP_ADD_MEMBERSHIP, mreq)
         print(
             f"Creation of UDP-socket with port {self.streamport} sucessfull.")
 
@@ -168,7 +182,9 @@ class NoSpaStream():
                     sys.exit(1)
             self.streaming_running.clear()
             self.streaming_not_running.set()
-        self.socket.close()
+        if self.socket:
+            self.socket.close()
+            self.socket = None
 
     def stream_data(self):
         """

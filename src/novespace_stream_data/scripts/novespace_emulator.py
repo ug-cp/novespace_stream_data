@@ -1,13 +1,13 @@
-# SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
+# SPDX-FileCopyrightText: 2025-2026 Daniel Mohr, Daniel Maier, Thomas Villatte
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 """
 This emulates a data stream.
 
-Copyright (C) 2025 Daniel Maier (University of Greifswald),
-                   Daniel Mohr (University of Greifswald),
-                   Thomas Villatte (Novespace)
+Copyright (C) 2025-2026 Daniel Mohr (University of Greifswald),
+                        Daniel Maier (University of Greifswald),
+                        Thomas Villatte (Novespace)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,9 +34,7 @@ from threading import Event
 
 class NovespaceStreamEmulator():
     """
-    This program emulates the UDP broadcast of the Data-unit,
-    sending data from a csv file (row by row) to a UDP port on a
-    specific IP address, every 0.1s
+    This program gets the UDP broadcast stream, logs and display it.
     """
 
     def __init__(self, filepath=None, ip_address='localhost', port=3131,

@@ -1,5 +1,5 @@
 ---
-author: Daniel Maier, Daniel Mohr, Thomas Villatte
+author: Daniel Mohr, Daniel Maier, Thomas Villatte
 license: GPL-3.0-or-later
 home: https://gitlab.com/ug-cp/novespace_stream_data
 mirror: https://github.com/ug-cp/novespace_stream_data
@@ -7,7 +7,7 @@ latest_release: https://gitlab.com/ug-cp/novespace_stream_data/-/releases/permal
 doi: https://doi.org/10.5281/zenodo.17986132
 ---
 <!--
-SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
+SPDX-FileCopyrightText: 2025-2026 Daniel Maier, Daniel Mohr, Thomas Villatte
 
 SPDX-License-Identifier: GPL-3.0-or-later
 -->
@@ -36,7 +36,7 @@ You can install `novespace_stream_data` using `pip` or `pipx`.
 Example:
 
 ```sh
-pipx install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.3.1/novespace_stream_data-0.3.1.zip
+pipx install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.4.0/novespace_stream_data-0.4.0.zip
 ```
 
 **Using pip:**
@@ -44,7 +44,7 @@ pipx install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.3.1/nove
 Example:
 
 ```sh
-pip3 install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.3.1/novespace_stream_data-0.3.1.zip
+pip3 install https://gitlab.com/ug-cp/novespace_stream_data/-/archive/0.4.0/novespace_stream_data-0.4.0.zip
 ```
 
 For development, you can install an editable version:
@@ -102,11 +102,20 @@ novespace_stream_data_receiver -h
 novespace_stream_data_emulator -h
 ```
 
+## Changelog
+
+0.4.0 For 47. [DLR](https://www.dlr.de/de) parabolic flight campaign in
+      September 2026 the provided stream changed from broadcast to multicast.
+      For your convenience we bind to all interfaces and joins the multicast
+      group on the default interface (configurable via -multicast_interface) --
+      regarding security this is not perfect and should not have a default.
+
 ## Citation
 
 If you use `novespace_stream_data` in your research, please cite it.
 
-Maier, D., Mohr, D., & Villatte, T. (2025). novespace_stream_data. Zenodo. https://doi.org/10.5281/zenodo.17986132
+Maier, D., Mohr, D., & Villatte, T. (2025-2026). novespace_stream_data.
+Zenodo. https://doi.org/10.5281/zenodo.17986132
 
 If you are using a specific version, please use the corresponding DOI.
 

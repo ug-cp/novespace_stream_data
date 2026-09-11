@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
+# SPDX-FileCopyrightText: 2025-2026 Daniel Mohr, Daniel Maier, Thomas Villatte
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -24,16 +24,23 @@ class GUINoSpaStream(NoSpaStream):
     This stream data was first provided during
     45. DLR parabolic flight campaign in October 2025.
     """
-    # pylint: disable = R0902
+    # pylint: disable = R0902, R0917
 
-    def __init__(self, csv_path, inputport=3131, printing=False):
+    def __init__(self, csv_path,
+                 multicast_group='239.255.100.10', inputport=3131,
+                 multicast_interface='0.0.0.0',  # nosec B104
+                 printing=False):
         """
         :param csv_path: path to store the data
         :param inputport: port to listen.
         :param printing: If set to True the data is not only logged, but also
                          printed on the console (stdout).
         """
-        super().__init__(csv_path, inputport, printing)
+        super().__init__(
+            csv_path,
+            multicast_group, inputport,
+            multicast_interface,
+            printing)
         self.display_data_callback = self.display_data
         self.label_directory = None
         self.button_browse = None
@@ -126,6 +133,7 @@ class GUINoSpaStream(NoSpaStream):
         try:
             # Get the port number from the entry field
             self.streamport = int(self.entry_port.get())
+            self.socket_address = ('', self.streamport)
         except ValueError:
             messagebox.showerror(
                 "Error",
@@ -164,7 +172,10 @@ def main():
     This function provides a GUI to get the streaming of airplanedata and
     writes them into a csv-file.
     """
-    datastreamgui = GUINoSpaStream(None, 3131)
+    datastreamgui = GUINoSpaStream(
+        None, multicast_group='239.255.100.10', inputport=3131,
+        multicast_interface='0.0.0.0',  # nosec B104
+        printing=False)
     datastreamgui()
 
 

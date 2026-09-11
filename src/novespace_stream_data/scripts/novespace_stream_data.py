@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2025 Daniel Maier, Daniel Mohr, Thomas Villatte
+# SPDX-FileCopyrightText: 2025-2026 Daniel Mohr, Daniel Maier, Thomas Villatte
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -10,9 +10,9 @@ from console.
 `novespace_stream_data` gets the stream from Novespace during
 scientific research flights.
 
-Copyright (C) 2025 Daniel Maier (University of Greifswald),
-                   Daniel Mohr (University of Greifswald),
-                   Thomas Villatte (Novespace)
+Copyright (C) 2025-2026 Daniel Mohr (University of Greifswald),
+                        Daniel Maier (University of Greifswald),
+                        Thomas Villatte (Novespace)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,8 @@ from novespace_stream_data.receive import NoSpaStream
 
 
 def start_nove_space_datastream(
-        port=3131, filepath=os.getcwd(), printing=False):
+        multicast_group='239.255.100.10', port=3131,
+        filepath=os.getcwd(), printing=False):
     """
     This function starts the streaming of airplanedata and
     writes them into a csv-file.
@@ -46,17 +47,23 @@ def start_nove_space_datastream(
     :param port (int): Number of Port for streaming (default: 3131)
     :param filepath (str): Path to file in which the csv-file is
                            created (default cwd)
-    :param printig (bool): Should the recived data be printed
-                           on the console? (default False)
+    :param printing (bool): Should the recived data be printed
+                            on the console? (default False)
     """
     description = "This script receives data stream of airplanedata and "
     description += "writes them into a csv-file."
-    epilog = "Date: 2025-11-05\n"
+    epilog = "Date: 2026-09-10\n"
     epilog += "License: GPL-3.0-or-later"
     parser = argparse.ArgumentParser(
         description=description,
         epilog=epilog,
         formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument(
+        '-multicast_group',
+        nargs='?',
+        default=multicast_group,
+        type=str, dest='multicast_group',
+        help='multicast address to join (default: %(default)s)')
     parser.add_argument(
         '-port',
         nargs="?",
@@ -66,7 +73,19 @@ def start_nove_space_datastream(
         dest='port',
         help='Number of Port for streaming (default: %(default)s)',
         metavar='i')
+    parser.add_argument(
+        '-multicast_interface',
+        nargs='?',
+        default='0.0.0.0',  # nosec B104
+        type=str,
+        dest='multicast_interface',
+        help='local interface to join multicast on '
+             '(0.0.0.0 = default/all, default: %(default)s)')
     args = parser.parse_args()
-    datastream = NoSpaStream(filepath, args.port, printing)
+    datastream = NoSpaStream(
+        filepath,
+        multicast_group=args.multicast_group, inputport=args.port,
+        multicast_interface=args.multicast_interface,
+        printing=printing)
     datastream.start_streaming()
     datastream.streaming_thread.join()
